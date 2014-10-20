@@ -355,8 +355,13 @@ drawBlock:
 	call	#setAddress			; move cursor to upper left corner of block
 
 	mov		#1, R12
+	mov		#0x03F6, R15
+	cmp.b		#1, 0(R15)
+	jz		white
 	mov		#0xFF, R13
-	mov.w	#0x08, R5			; loop all 8 pixel columns
+	jmp		black
+white	mov		#0x00, R13
+black	mov.w	#0x08, R5			; loop all 8 pixel columns
 loopdB:
 	call	#writeNokiaByte		; draw the pixels
 	dec.w	R5
