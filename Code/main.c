@@ -1,3 +1,8 @@
+/*
+*Lab 4 - mixing C and assembly
+*Dustin Weisner, USAFA / 20 Oct 2014 / 20 Oct 2014
+*Documentation: None
+*/
 #include <msp430g2553.h>
 
 extern void init();
