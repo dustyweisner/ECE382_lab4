@@ -17,11 +17,13 @@ extern void drawBlock(unsigned char row, unsigned char col);
 void main() {
 
 	unsigned char	x, y, button_press;
+	volatile unsigned char	change_press;
 
 	// === Initialize system ================================================
 	IFG1=0; /* clear interrupt flag1 */
 	WDTCTL=WDTPW+WDTHOLD; /* stop WD */
 	button_press = FALSE;
+	change_press = FALSE;
 
 
 	init();
@@ -31,6 +33,13 @@ void main() {
 	drawBlock(y,x);
 
 	while(1) {
+		if (AUX_BUTTON == 0) {
+			while(AUX_BUTTON == 0);
+			if (change_press == TRUE){
+				change_press = FALSE;
+			} else change_press = TRUE;
+			drawBlock(y,x);
+		}
 
 			if (UP_BUTTON == 0) {
 				while(UP_BUTTON == 0);
@@ -52,7 +61,7 @@ void main() {
 
 			if (button_press) {
 				button_press = FALSE;
-				clearDisplay();
+				//clearDisplay();
 				drawBlock(y,x);
 			}
 		}
