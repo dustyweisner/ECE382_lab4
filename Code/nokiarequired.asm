@@ -4,7 +4,7 @@
 ;	MSP430G2553
 ;	Put some pixels on the Nokia 1202 Diaplsy
 ;
-;Updates by Dustin Weisner 20 Oct 2014
+;	Updates by Dustin Weisner 20 Oct 2014
 ;-------------------------------------------------------------------------------
 	.cdecls C,LIST,"msp430.h"		; BOILERPLATE	Include device header file
 
