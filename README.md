@@ -32,3 +32,13 @@ Because space is limited on microcontrollers, it is a common practice to use var
 |int64|unsigned 64-bit value|typedef unsigned long long int64|
 |sint64|signed 64-bit value|typedef signed long long sint64|
 
+I then made a project around simpleLab4.c. I used CCS to step through the program and examined the a, b, c, d, e variables in main, just after the call to the function `func` in line 16.
+
+|__Iteration__|__a__|__b__|__c__|__d__|__e__|
+|:--|:--|:--|:--|:--|:--|
+|1st|10|9|8|7|10|
+|2nd|16|15|14|13|16|
+|3rd|22|21|20|19|22|
+|4th|28|27|26|25|28|
+|5th|34|33|32|31|34|
+
