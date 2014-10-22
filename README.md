@@ -4,6 +4,38 @@ ECE382_lab4
 Mixing C and Assembly
 
 
+__*Required Functionality*__
+Modify your assembly drawBlock function to take in 3 values: an x coordinate, a y coordinate, and a color.
+
+Create an etch-a-sketch program using the directional buttons of the LCD booster pack to control the position of the paint brush. The paint brush will draw 8x8 blocks of pixels. The user will change the position of the paint brush by pressing the directional buttons. Each button press will move the cursor 8 pixels in the direction pressed (see table below). Pressing the auxiliary button (SW3) will toggle the mode of the paint brush between filling squares and clearing squares.
+
+Button	Function
+SW5/Up	Move the cursor up 1 block
+SW4/Down	Move the cursor down 1 block
+SW2/Left	Move the cursor left 1 block
+SW1/Right	Move the cursor right 1 block
+SW3/Aux	Toggle the color of the paint brush
+This program must be written in C and call many of the subroutines written as part of lab 3, including drawBlock and changePosition.
+
+Mind your coding standards! Commit regularly with descriptive commit messages!
+
+__*B Functionality*__
+Create a bouncing block! This block should move across the screen with no more than 8 pixels per jump. It should bounce off the walls appropriately, similar to assignment 6. An adequate delay movement should be added between each block movement. Your starting position and starting x and y velocities should be initialized in your header, or should be randomly generated.
+
+__*A Functionality*__
+Create Pong on your display! Create a single paddle that will move up and down on one side of the display, controlled by the up and down buttons. The block will bounce off the paddle like it bounces off the wall. When the block misses hitting the paddle, the game will end.
+
+__*Bonus Functionality*__
+Each bonus functionality can be achieved in conjunction with either A or B functionality. These functionalities must be written in assembly and called by C. Each is worth 5 points.
+
+Circle: Instead of a bouncing block, create a bouncing circular ball!
+
+Fine movement: Instead of having the ball/paddle move in 8-pixel jumps, have it move in 1-pixel jumps.
+
+Inverted display: With a push of the SW3 button, invert the display. Dark pixels will become light pixels, and vice versa. Instead of a bouncing dark ball, you will have a bouncing light ball.
+
+
+
 __*Prelab*__
 
 The following taable is data given in the C Compiler User's Guide, which given information pertinent to the lab:
@@ -62,6 +94,7 @@ __*Lab*__
 To begin the Lab, I looked at the requirements and the given code. From there I worked on each functionality until they were perfect.
 
 *Required Functionality*
+
 To begin with the required functionality, first I observed the given C code to see how to get rid of the clearDisplay() function. When I found it, I commented it out so that when I drew on the screen, my drawing left a trail rather than deleting everything every iteration. Then I wanted to know how the drawBlock() function could delete rather than draw. I remembered from ECE382_Lab3 how to use the "nokia.asm" and knew that the drawBlock function in "nokia.asm" put `#0xFF` into R13. Because I wanted 0's in all of the bits to clear the block, I used the following code from "nokiarequired.asm" to compare a variable from a certain location in "mainrequired.c" to see if I should use `#0xFF` for if I want to draw a block and `#0x00` for if I want to delete a block:
 
                   mov		#1, R12
@@ -88,6 +121,8 @@ This block of code was the only thing required for "nokiarequired.asm", but for 
 If "change_press" is true, mycompare line, `cmp.b		#1, 0(R15)`, from the "nokiarequired.asm" would make the compare equal to zero and the `#0x00` would be used instead. Until the AUX_BUTTON is pressed again and changed to false, the "change_press" will continue to be true. This concludes the required functionality of the lab.
 
 *A/B Functionality with Bonus Features*
+
+To begin the B functionality, I had to add an xVel and yVel to update position of the ball.
 
                   mov		#1, R12
                 	mov		#0x03EE, R15
