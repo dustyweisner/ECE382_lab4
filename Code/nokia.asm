@@ -355,9 +355,14 @@ drawBlock:
 	call	#setAddress			; move cursor to upper left corner of block
 
 	mov		#1, R12
-	mov		#0x03F6, R15
+	mov		#0x03EE, R15
 	mov		#0xFF, R13
-    mov.w	#0x08, R5			; loop all 8 pixel columns
+	;CHANGE CMP -if drawpaddle is true!
+	cmp.b	#1, 0(R15)
+	jnz		paddledraw
+	mov		#0x02, R5
+	jmp		loopdB
+paddledraw	mov.w	#0x08, R5			; loop all 8 pixel columns
 loopdB:
 	call	#writeNokiaByte		; draw the pixels
 	dec.w	R5
@@ -368,3 +373,5 @@ loopdB:
 	pop		R5
 
 	ret							; return whence you came
+
+
