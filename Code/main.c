@@ -112,6 +112,7 @@ void main() {
 
 
 			// G
+			if (x>=0 && x<=SCREEN_WIDTH) {
 			drawBlock(1,x+0,0,0);
 			drawBlock(1,x+1,0,0);
 			drawBlock(1,x+2,0,0);
@@ -131,9 +132,12 @@ void main() {
 			drawBlock(6,x+2,0,0);
 			drawBlock(6,x+3,0,0);
 			drawBlock(6,x+4,0,0);
+			}
 
 			//A
+
 			char A = 6;
+			if ((x+A)>=0 && (x+A)<=SCREEN_WIDTH) {
 			drawBlock(1,A+x+0,0,0);
 			drawBlock(1,A+x+1,0,0);
 			drawBlock(1,A+x+2,0,0);
@@ -152,9 +156,11 @@ void main() {
 			drawBlock(5,A+x+4,0,0);
 			drawBlock(6,A+x+0,0,0);
 			drawBlock(6,A+x+4,0,0);
+			}
 
 			//M
 			char M = A + 6;
+			if ((x+M)>=0 && (x+M)<=SCREEN_WIDTH) {
 			drawBlock(1,M+x+0,0,0);
 			drawBlock(1,M+x+1,0,0);
 			drawBlock(1,M+x+3,0,0);
@@ -170,9 +176,13 @@ void main() {
 			drawBlock(4,M+x+4,0,0);
 			drawBlock(5,M+x+4,0,0);
 			drawBlock(6,M+x+4,0,0);
+			}
 
 			//M
+
 			char E = M + 6;
+
+			if ((x+E)>=0 && (x+E)<=SCREEN_WIDTH) {
 			drawBlock(1,E+x+0,0,0);
 			drawBlock(1,E+x+1,0,0);
 			drawBlock(1,E+x+2,0,0);
@@ -187,13 +197,17 @@ void main() {
 			drawBlock(6,E+x+1,0,0);
 			drawBlock(6,E+x+2,0,0);
 			drawBlock(6,E+x+3,0,0);
+			}
 
 
 // Loop message
-			if(x<=-50) {
-				x=50;
+			if(x<=-18) {
+				x=SCREEN_WIDTH;
 			} else x-=1;
 
+//			if(x<=-50) {
+//				x=50;
+//			} else x-=1;
 
 			long i;
 
