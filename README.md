@@ -5,6 +5,7 @@ Mixing C and Assembly
 
 
 __*Required Functionality*__
+
 Modify your assembly drawBlock function to take in 3 values: an x coordinate, a y coordinate, and a color.
 
 Create an etch-a-sketch program using the directional buttons of the LCD booster pack to control the position of the paint brush. The paint brush will draw 8x8 blocks of pixels. The user will change the position of the paint brush by pressing the directional buttons. Each button press will move the cursor 8 pixels in the direction pressed (see table below). Pressing the auxiliary button (SW3) will toggle the mode of the paint brush between filling squares and clearing squares.
@@ -20,12 +21,15 @@ This program must be written in C and call many of the subroutines written as pa
 Mind your coding standards! Commit regularly with descriptive commit messages!
 
 __*B Functionality*__
+
 Create a bouncing block! This block should move across the screen with no more than 8 pixels per jump. It should bounce off the walls appropriately, similar to assignment 6. An adequate delay movement should be added between each block movement. Your starting position and starting x and y velocities should be initialized in your header, or should be randomly generated.
 
 __*A Functionality*__
+
 Create Pong on your display! Create a single paddle that will move up and down on one side of the display, controlled by the up and down buttons. The block will bounce off the paddle like it bounces off the wall. When the block misses hitting the paddle, the game will end.
 
 __*Bonus Functionality*__
+
 Each bonus functionality can be achieved in conjunction with either A or B functionality. These functionalities must be written in assembly and called by C. Each is worth 5 points.
 
 Circle: Instead of a bouncing block, create a bouncing circular ball!
@@ -37,6 +41,7 @@ Inverted display: With a push of the SW3 button, invert the display. Dark pixels
 
 
 __*Prelab*__
+
 
 The following taable is data given in the C Compiler User's Guide, which given information pertinent to the lab:
 
@@ -91,6 +96,7 @@ Afterwards, I answered the last two questions to the prelab. The role of the `ex
 
 __*Lab*__
 
+
 To begin the Lab, I looked at the requirements and the given code. From there I worked on each functionality until they were perfect.
 
 *Required Functionality*
@@ -122,7 +128,40 @@ If "change_press" is true, mycompare line, `cmp.b		#1, 0(R15)`, from the "nokiar
 
 *A/B Functionality with Bonus Features*
 
-To begin the B functionality, I had to add an xVel and yVel to update position of the ball.
+To begin the B functionality, I had to add an xVel and yVel to update position of the ball. I then added boundary control to the screen width and height which I measured by the amount of blocks wide and high the screen was. The following code shows how I implemented the walls, which also included the A functionality of if the ball hits the paddle. 
+
+                  // Boundary Control for ball path and bounces
+                  if (y<=0 && yVel<0) {
+                  
+                  	yVel = -1*yVel;
+                  } else if (y>=SCREEN_HEIGHT && yVel>0){
+                  	yVel = -1*yVel;
+                  }
+                  if (x<=xPad && xVel<0) {
+                  	if (y==yPad||y==yPad+1){
+                  		xVel = -1*xVel;
+                  	} else gameover=TRUE;
+                  } else if (x>=SCREEN_WIDTH && xVel>0){
+                  	xVel = -1
+
+If the ball did hit anything on the left side of the wall and it wasn't equal to the same position as the paddle, the gameover variable will be set to true. The variables yPad and xPad were added to the "main.c" so that the new drawBlock() function actually drew a block where the position of the paddle was. Because I wanted the ball to update and draw position I used the following code:
+
+                  x=x+xVel;
+                  y=y+yVel;
+                  clearDisplay();
+                  drawBlock(y,x,yVel,xVel);
+
+I also needed to program the buttons like in the "main.c", but in this case I only programmed the up and down buttons to move the position of the variable, yPad, as shown below:
+
+                  // Programs up and down presses for the paddle
+                  
+                  if (UP_BUTTON==0 && yPad>0) {
+                  	yPad=yPad-1;
+                  } else if (DOWN_BUTTON==0 && yPad<=SCREEN_HEIGHT-2){
+                  	yPad=yPad+1;
+                  }
+
+Then I decided I wanted to draw the paddle using the width of two blocks and 2 pixels wide. Just like the required functionality, I knew that the pixel width was indicated in the "nokia.asm", where there is the comment, "loop all 8 pixel columns", in the following code: 
 
                   mov		#1, R12
                 	mov		#0x03EE, R15
@@ -134,4 +173,25 @@ To begin the B functionality, I had to add an xVel and yVel to update position o
                 	jmp		loopdB
     paddledraw	mov.w	#0x08, R5			; loop all 8 pixel columns
     loopdB:
+
+I used a boolean variable to indicated if the drawBlock function() drew the width of a ball (`0x08`) or paddle (`0x02`) through the code above, but I made the double block length of the paddle in "main.c". I needed to make the variable drawpaddle true immediately before drawing the paddle. Then I drew two blocks, one right underneath the other, by varying the "yPad" by 1. Then, as shown below, I changed the drawpaddle to false immediately following the paddle drawBlock()'s to prepare for the ball's drawBlock().
+
+                  drawpaddle = TRUE;
+                  drawBlock(yPad,xPad,0,0);
+                  drawBlock(yPad+1,xPad,0,0);
+                  drawpaddle = FALSE;
+
+Then I created a delay timer and increased the speed as the game continues for bonus functionality, given in the code below.
+
+                  long i;
+                  for(i=0; i<delaySpeed; i++);
+                  delaySpeed=delaySpeed-100;
+
+Finally as another bonus feature I included a scorlling "GAME" for when the game ends. I did this by using a multitude of drawBlock() functions to spell out "GAME" using a decreasing x value that looped back around, as shown in the following code:
+
+                  if(x<=-18) {
+                  	x=SCREEN_WIDTH;
+                  } else x-=1;
+
+This concludes the A, B, and Bonus functionality write up for the lab.
 
