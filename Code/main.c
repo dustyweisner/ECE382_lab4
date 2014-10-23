@@ -204,11 +204,8 @@ void main() {
 			if(x<=-18) {
 				x=SCREEN_WIDTH;
 			} else x-=1;
-
-//			if(x<=-50) {
-//				x=50;
-//			} else x-=1;
-
+			
+// Delay the scroll movement
 			long i;
 
 			for(i=0; i<90000; i++);
